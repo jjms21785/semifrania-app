@@ -9,8 +9,15 @@ use App\Services\ProductService;
 use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome', ['name' => 'Semifrania-App']);
 });
+
+Route::get('/users', [UserController::class, 'index'])->middleware('user-middleware');
+
+Route::resource('product', ProductController::class);
+
+
+
 
 Route::get('/test', function (Request $request) {
     $input = $request->input('key');
@@ -78,9 +85,9 @@ Route::post('/token', function (Request $request) {
     return $request->all();
 });
 
-Route::get('/users', [UserController::class, 'index'])->middleware('user-middleware');
+// Route::get('/users', [UserController::class, 'index'])->middleware('user-middleware');
 
-Route::resource('product', ProductController::class);
+// Route::resource('product', ProductController::class);
 
 Route::get('/product-list', function (ProductService $productService) {
     $data['products'] = $productService->listProducts();
